@@ -33,6 +33,10 @@
                 Key = "AvailabilityZone1"
                 Value = (Get-EC2AvailabilityZone -Region $Region | Get-Random).ZoneName
             }
+            @{
+                Key = "ID"
+                Value = $ID
+            }
         )
         region = $Region
         TemplateBody = $(gc "$PSScriptRoot\..\files\awstesthelper-environment.yml" | out-string)

@@ -12,8 +12,9 @@
     }
 
     return @{
-        VPCID = ($CFNStack.Outputs | ?{$_.outputkey -eq "VPCID"}).OutputKey
-        PublicSubnetID = ($CFNStack.Outputs | ?{$_.outputkey -eq "PublicSubnetAID"}).OutputKey
-        AvailabilityZone = ($CFNStack.Outputs | ?{$_.outputkey -eq "AvailabilityZone1"}).OutputKey
+        VPCID = ($CFNStack.Outputs | ?{$_.outputkey -eq "VPCID"}).OutputValue
+        PublicSubnetID = ($CFNStack.Outputs | ?{$_.outputkey -eq "PublicSubnetAID"}).OutputValue
+        AvailabilityZone = ($CFNStack.Outputs | ?{$_.outputkey -eq "AvailabilityZone1"}).OutputValue
+        SSMInstanceProfileID = ($CFNStack.Outputs | ?{$_.outputkey -eq "SSMInstanceProfileID"}).OutputValue
     }
 }
