@@ -22,8 +22,8 @@
             }
         }
 
-        while($EC2Instances -and ($EC2InstancesState | select -Unique) -ne 'terminated'){
-            $EC2InstancesState = (Get-EC2Instance -Filter @{Name="vpc-id";Value=$StackOutputs.VPCID} -Region $Region).Instances.State.name.value
+        while($EC2Instances -and ($EC2Instances | select -Unique) -ne 'terminated'){
+            $EC2Instances = (Get-EC2Instance -Filter @{Name="vpc-id";Value=$StackOutputs.VPCID} -Region $Region).Instances.State.name.value
             Write-Verbose "Waiting for instances to terminate"
             Start-Sleep -s 10
         }
