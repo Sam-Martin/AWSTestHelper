@@ -1,0 +1,119 @@
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'AWS Test Helper Environment'
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+    - Label: 
+        default: 'Default Parameters'
+      Parameters:
+      - DefaultKeyName
+    - Label:
+        default: 'VPC Parameters'
+      Parameters:
+      - AvailabilityZone1
+      - CidrBlock
+      - VPC
+      - PublicSubnetACIDR
+Parameters:
+  CidrBlock:
+    AllowedPattern: '((\d{1,3})\.){3}\d{1,3}/\d{1,2}'
+    Description: VPC CIDR Block (eg 10.0.0.0/16)
+    Type: String
+  AvailabilityZone1:
+    Description: The AvailabilityZone to use for the first subnet
+    Type: AWS::EC2::AvailabilityZone::Name
+  PublicSubnetACIDR:
+    AllowedPattern: '((\d{1,3})\.){3}\d{1,3}/\d{1,2}'
+    Description: VPC CIDR Block for the Public Subnet A (eg 10.0.0.0/24)
+    Type: String
+Resources:
+  VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock:
+        Ref: CidrBlock
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags:
+        - Key: Name
+          Value:
+            Ref: AWS::StackName
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+      - Key: Name
+        Value:
+          Ref: AWS::StackName
+  GatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId:
+        Ref: InternetGateway
+      VpcId:
+        Ref: VPC
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: 
+            Fn::Join: 
+              - ' - '
+              - [{Ref: 'AWS::StackName'}, 'Public Route Table']
+      VpcId:
+        Ref: VPC
+  PublicRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: InternetGateway
+      RouteTableId:
+        Ref: PublicRouteTable
+  PublicSubnetA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: {Ref: AvailabilityZone1}
+      CidrBlock: {Ref: PublicSubnetACIDR}
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value:
+            Fn::Join:
+              - ' - '
+              - [{Ref: 'AWS::StackName'}, 'Public Subnet A']
+      VpcId: {Ref: VPC}
+  PublicSubnetARouteAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: PublicRouteTable
+      SubnetId:
+        Ref: PublicSubnetA
+Outputs:
+  AvailabilityZone1: 
+    Description: Name of AvailabilityZone 1
+    Value: !Ref 'AvailabilityZone1'
+    Export:
+      Name: 
+        Fn::Join:
+          - '-'
+          - [{Ref: 'AWS::StackName'}, 'AvailabilityZone1']
+  VPCID: 
+    Description: ID of VPC
+    Value: !Ref 'VPC'
+    Export:
+      Name: 
+        Fn::Join:
+          - '-'
+          - [{Ref: 'AWS::StackName'}, 'VPCID']
+  PublicSubnetAID: 
+    Description: ID of Public Subnet A
+    Value: !Ref 'PublicSubnetA'
+    Export:
+      Name: 
+        Fn::Join:
+          - '-'
+          - [{Ref: 'AWS::StackName'}, 'PublicSubnetAID']
