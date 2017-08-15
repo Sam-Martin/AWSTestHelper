@@ -40,6 +40,6 @@ Remove-AWSTestEnvironmentStack -Region eu-west-1 -ID Default -TerminateInstances
 ```
 *Note:* using the `-TerminateInstances` switch will force the termination of instances launched in the VPC.
 
-# Identity
-You will note in the examples above that a parameter `-ID` is used in every cmdlet. This identifier is appended to the name of all resources to ensure that they are uniquely identifiable.
+## Identity
+You will note in the examples above that a parameter `-ID` is used in every cmdlet. This identifier is appended to the name of all resources to ensure that they are uniquely identifiable.  
 **Important:** The value you pass to `-ID` is case sensitive.
