@@ -3,6 +3,7 @@
 Properties {
     # Find the build folder based on build system
     $ProjectRoot = $ENV:BHProjectPath
+    $ModuleRoot = $ENV:BHModulePath
     if(-not $ProjectRoot)
     {
         $ProjectRoot = $PSScriptRoot
@@ -39,14 +40,9 @@ Task Deploy -Depends Init {
     }
     "New Version: $NewVersion"
 
-    if(Test-ModuleManifest -Path $manifestPath){
-        Write-Output "Module Manifest works okaY!"
-    }else{
-        Write-Error "Err, why is the Test-ModuleManifest version null?"
-    }
-
+   
     # Update function list & manifest version
-    $FunctionList = @((Get-Module $ManifestPath -ListAvailable).ExportedCommands.Values.Name)
+    $FunctionList = @( Get-ChildItem -Path $ModuleRoot\Public\*.ps1 -ErrorAction SilentlyContinue ).BaseName
     Update-ModuleManifest -Path $ManifestPath -ModuleVersion $NewVersion -FunctionsToExport $functionList
     
     $Params = @{
