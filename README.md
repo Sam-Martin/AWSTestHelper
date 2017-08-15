@@ -1,8 +1,15 @@
-# AWSTestHelper
+# AWSTestHelper [![Build status](https://ci.appveyor.com/api/projects/status/0u01ondgmpo9hel7?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awstesthelper)
+
 Set of PowerShell cmdlets for safely spinning AWS VPCs up and down for testing purposes. 
 This module is useful when you want to quickly spin up an isolated, short-lived instance for testing purposes.
 
 # Usage
+Installation can be done from the [PowerShell Gallery](https://www.powershellgallery.com/packages/AWSTestHelper/) using the following command.
+
+```
+Install-Module -Name AWSTestHelper
+```
+
 ## VPC Creation
 This module handles the creation of an AWS VPC including:
 * Internet Gateway
