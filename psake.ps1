@@ -39,14 +39,16 @@ Task Deploy -Depends Init {
     }
     "New Version: $NewVersion"
 
+    if(Test-ModuleManifest -Path $manifestPath){
+        Write-Output "Module Manifest works okaY!"
+    }else{
+        Write-Error "Err, why is the Test-ModuleManifest version null?"
+    }
+
+    # Update function list & manifest version
     $FunctionList = @((Get-Module $ManifestPath -ListAvailable).ExportedCommands.Values.Name)
-
     Update-ModuleManifest -Path $ManifestPath -ModuleVersion $NewVersion -FunctionsToExport $functionList
-    #(Get-Content -Path $ManifestPath) -replace "PSGet_$Env:BHProjectName", "$Env:BHProjectName" | Set-Content -Path $ManifestPath
-    #(Get-Content -Path $ManifestPath) -replace 'NewManifest', "$Env:BHProjectName" | Set-Content -Path $ManifestPath
-    #(Get-Content -Path $ManifestPath) -replace 'FunctionsToExport = ', 'FunctionsToExport = @(' | Set-Content -Path $ManifestPath -Force
-    #(Get-Content -Path $ManifestPath) -replace "$($FunctionList[-1])'", "$($FunctionList[-1])')" | Set-Content -Path $ManifestPath -Force
-
+    
     $Params = @{
         Path = $ProjectRoot
         Force = $true
