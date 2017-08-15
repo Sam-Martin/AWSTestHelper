@@ -50,3 +50,6 @@ Remove-AWSTestEnvironmentStack -Region eu-west-1 -ID Default -TerminateInstances
 ## Identity
 You will note in the examples above that a parameter `-ID` is used in every cmdlet. This identifier is appended to the name of all resources to ensure that they are uniquely identifiable.  
 **Important:** The value you pass to `-ID` is case sensitive.
+
+# Authors
+ - Sam Martin (samjackmartin@gmail.com)
