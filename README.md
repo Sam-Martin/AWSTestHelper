@@ -1,4 +1,4 @@
-# AWSTestHelper [![Build status](https://ci.appveyor.com/api/projects/status/0u01ondgmpo9hel7?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awstesthelper)
+# AWSTestHelper [![Build status](https://ci.appveyor.com/api/projects/status/0u01ondgmpo9hel7?svg=true)](https://ci.appveyor.com/project/Sam-Martin/awstesthelper) [![PowerShell Gallery](https://img.shields.io/powershellgallery/dt/AWSTestHelper.svg)]()
 
 Set of PowerShell cmdlets for safely spinning AWS VPCs up and down for testing purposes. 
 This module is useful when you want to quickly spin up an isolated, short-lived instance for testing purposes.
